@@ -1,6 +1,7 @@
 {
 	"name": "JSObfuscator",
 	"displayName": "JSObfuscator",
+	"publisher": "SHJobanputra",
 	"description": "Code Obfuscator, javaScript Obfuscator,Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure.Thanks for using :)",
 	"version": "0.0.1",
 	"engines": {
