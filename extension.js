@@ -1,27 +1,66 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-
+const fs = require('fs');
+const JavaScriptObfuscator = require('javascript-obfuscator');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
+
+let _getAllFilesFromFolder = function (dir) {
+
+	let filesystem = require("fs");
+	let results = [];
+
+	filesystem.readdirSync(dir).forEach(function (file) {
+
+		file = dir + '/' + file;
+		let stat = filesystem.statSync(file);
+
+		if (stat && stat.isDirectory()) {
+			results = results.concat(_getAllFilesFromFolder(file))
+		} else results.push(file);
+
+	});
+
+	return results;
+
+};
+
+let _JSCodeToObfuscator = function(text){
+
+	let obfuscationResult = JavaScriptObfuscator.obfuscate(
+		text,
+		{
+			compact: false,
+			controlFlowFlattening: true
+		}
+	);
+
+	return obfuscationResult.getObfuscatedCode();
+}
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "JSObfuscator" is now active!');
+	let disposable = vscode.commands.registerCommand('extension.JSObfuscatorEncodeJSCode', function () {
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+		const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath+"/";
+		
+		let filePath = _getAllFilesFromFolder(workspacePath);
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
+		filePath.forEach(singleFilePath => {
+
+			let text = fs.readFileSync(singleFilePath).toString('utf-8');
+
+			fs.writeFile(singleFilePath ,_JSCodeToObfuscator(text), function(err){
+				if(err){
+					return console.log(err);
+				}
+			});
+		});
+
 	});
 
 	context.subscriptions.push(disposable);
@@ -29,7 +68,7 @@ function activate(context) {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
 	activate,

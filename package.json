@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.JSObfuscatorEncodeJSCode"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "extension.JSObfuscatorEncodeJSCode",
+				"title": "JSObfuscator : Encode JS Code"
 			}
 		]
 	},
@@ -31,6 +31,7 @@
 		"@types/vscode": "^1.41.0",
 		"eslint": "^6.6.0",
 		"glob": "^7.1.5",
+		"javascript-obfuscator": "^0.19.2",
 		"mocha": "^6.2.2",
 		"typescript": "^3.6.4",
 		"vscode-test": "^1.2.2"
