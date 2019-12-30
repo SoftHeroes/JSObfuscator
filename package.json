@@ -34,7 +34,7 @@
 				},
 				"JSObfuscator.subPathInWorkspace": {
 					"type": "string",
-					"default": "//",
+					"default": "",
 					"description": "Specified some relative path where you only want to Obfuscate JavaScript"
 				},
 				"JSObfuscator.ignoreFile": {
