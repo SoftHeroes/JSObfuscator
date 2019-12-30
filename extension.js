@@ -26,7 +26,7 @@ let _getAllFilesFromFolder = function (dir) {
 
 };
 
-let _JSCodeToObfuscator = function(text){
+let _JSCodeToObfuscator = function (text) {
 
 	let obfuscationResult = JavaScriptObfuscator.obfuscate(
 		text,
@@ -46,17 +46,25 @@ function activate(context) {
 
 	let disposable = vscode.commands.registerCommand('extension.JSObfuscatorEncodeJSCode', function () {
 
-		const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath+"/";
+		if(typeof vscode.workspace.workspaceFolders === 'undefined' || vscode.workspace.workspaceFolders.length == 0 ){
+			return vscode.window.showInformationMessage("Open a folder or workspace... (File -> Open Folder)");
+		}
 		
+		const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + "/";
+
 		let filePath = _getAllFilesFromFolder(workspacePath);
 
 		filePath.forEach(singleFilePath => {
 
 			let text = fs.readFileSync(singleFilePath).toString('utf-8');
 
-			fs.writeFile(singleFilePath ,_JSCodeToObfuscator(text), function(err){
-				if(err){
-					return console.log(err);
+			let JSObfuscator = vscode.window.createOutputChannel("JSObfuscator");
+			
+			JSObfuscator.clear();
+
+			fs.writeFile(singleFilePath, _JSCodeToObfuscator(text), function (err) {
+				if (err) {
+					return JSObfuscator.appendLine(err.message);
 				}
 			});
 		});
