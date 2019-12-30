@@ -51,36 +51,64 @@ function activate(context) {
 	let disposable = vscode.commands.registerCommand('extension.JSObfuscatorEncodeJSCode', function () {
 
 		let JSObfuscator = vscode.window.createOutputChannel("JSObfuscator");
+		JSObfuscator.clear();
+
+		JSObfuscator.appendLine('Obfuscating process started');
+
+		let fileOnWhichWeWorking;
 
 		try {
 			if (typeof vscode.workspace.workspaceFolders === 'undefined' || vscode.workspace.workspaceFolders.length == 0) {
 				return vscode.window.showInformationMessage("Open a folder or workspace... (File -> Open Folder)");
 			}
 
-			const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + "/";
+			let ignoreMinFiles = vscode.workspace.getConfiguration().get('JSObfuscator.ignoreMinFiles');
+			let subPathInWorkspace = "/" + vscode.workspace.getConfiguration().get('JSObfuscator.subPathInWorkspace');
+			let ignoreFile = vscode.workspace.getConfiguration().get('JSObfuscator.ignoreFile');
+
+			let ignoreFileArray = ignoreFile.split(",");
+			const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + subPathInWorkspace;
 
 			let filePath = _getAllFilesFromFolder(workspacePath);
 
-			filePath.forEach(singleFilePath => {
+			for (let i = 0; i < filePath.length; i++) {
+				fileOnWhichWeWorking = filePath[i];
 
-				let nameSplitted = singleFilePath.split(".");
+				let currentFileName = filePath[i].split("/");
+				currentFileName = currentFileName[currentFileName.length -1 ];
+
+				if (ignoreMinFiles && filePath[i].search(".min.js") != -1 ) {
+					continue;
+				}
+
+				if(ignoreFileArray.indexOf(currentFileName) != -1 ){
+					continue;
+				}
+				
+
+
+				let nameSplitted = filePath[i].split(".");
 
 				if (nameSplitted[nameSplitted.length - 1] == 'js') {
-					let text = fs.readFileSync(singleFilePath).toString('utf-8');
+					let text = fs.readFileSync(filePath[i]).toString('utf-8');
 
-					JSObfuscator.clear();
-
-					fs.writeFile(singleFilePath, _JSCodeToObfuscator(text), function (err) {
+					fs.writeFile(filePath[i], _JSCodeToObfuscator(text), function (err) {
 						if (err) {
-							return JSObfuscator.appendLine(err.message);
+							JSObfuscator.appendLine('File on which get error : ' + fileOnWhichWeWorking);
+							JSObfuscator.appendLine(err.message);
+							return vscode.window.showErrorMessage('Invalid Exception.');
+							
 						}
 					});
-
 				}
-			});
+			}
 
+			return vscode.window.showInformationMessage('All Script Obfuscated.');
 		} catch (error) {
-			return JSObfuscator.appendLine(error);
+			JSObfuscator.appendLine('File on which get error : ' + fileOnWhichWeWorking);
+			JSObfuscator.appendLine(error.stack);
+			JSObfuscator.appendLine(error);
+			return vscode.window.showErrorMessage('Invalid Exception.');
 		}
 	});
 
