@@ -4,7 +4,7 @@
 	"publisher": "SoftHeroes",
 	"repository":"https://github.com/SoftHeroes/JSObfuscator",
 	"description": "Code Obfuscator, javaScript Obfuscator,Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure.Thanks for using :)",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.41.0"
 	},

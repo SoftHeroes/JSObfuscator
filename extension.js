@@ -46,29 +46,33 @@ function activate(context) {
 
 	let disposable = vscode.commands.registerCommand('extension.JSObfuscatorEncodeJSCode', function () {
 
-		if(typeof vscode.workspace.workspaceFolders === 'undefined' || vscode.workspace.workspaceFolders.length == 0 ){
-			return vscode.window.showInformationMessage("Open a folder or workspace... (File -> Open Folder)");
-		}
-		
-		const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + "/";
+		let JSObfuscator = vscode.window.createOutputChannel("JSObfuscator");
 
-		let filePath = _getAllFilesFromFolder(workspacePath);
+		try {
+			if (typeof vscode.workspace.workspaceFolders === 'undefined' || vscode.workspace.workspaceFolders.length == 0) {
+				return vscode.window.showInformationMessage("Open a folder or workspace... (File -> Open Folder)");
+			}
 
-		filePath.forEach(singleFilePath => {
+			const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + "/";
 
-			let text = fs.readFileSync(singleFilePath).toString('utf-8');
+			let filePath = _getAllFilesFromFolder(workspacePath);
 
-			let JSObfuscator = vscode.window.createOutputChannel("JSObfuscator");
-			
-			JSObfuscator.clear();
+			filePath.forEach(singleFilePath => {
 
-			fs.writeFile(singleFilePath, _JSCodeToObfuscator(text), function (err) {
-				if (err) {
-					return JSObfuscator.appendLine(err.message);
-				}
+				let text = fs.readFileSync(singleFilePath).toString('utf-8');
+
+				JSObfuscator.clear();
+
+				fs.writeFile(singleFilePath, _JSCodeToObfuscator(text), function (err) {
+					if (err) {
+						return JSObfuscator.appendLine(err.message);
+					}
+				});
 			});
-		});
 
+		} catch (error) {
+			return JSObfuscator.appendLine(error);
+		}
 	});
 
 	context.subscriptions.push(disposable);
