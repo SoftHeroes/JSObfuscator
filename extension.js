@@ -18,7 +18,9 @@ let _getAllFilesFromFolder = function (dir) {
 
 		if (stat && stat.isDirectory()) {
 			results = results.concat(_getAllFilesFromFolder(file))
-		} else results.push(file);
+		} else {
+			results.push(file);
+		}
 
 	});
 
@@ -44,6 +46,8 @@ let _JSCodeToObfuscator = function (text) {
  */
 function activate(context) {
 
+	console.log('Congratulations , your extension "JSObfuscator" is now active!');
+
 	let disposable = vscode.commands.registerCommand('extension.JSObfuscatorEncodeJSCode', function () {
 
 		let JSObfuscator = vscode.window.createOutputChannel("JSObfuscator");
@@ -59,15 +63,20 @@ function activate(context) {
 
 			filePath.forEach(singleFilePath => {
 
-				let text = fs.readFileSync(singleFilePath).toString('utf-8');
+				let nameSplitted = singleFilePath.split(".");
 
-				JSObfuscator.clear();
+				if (nameSplitted[nameSplitted.length - 1] == 'js') {
+					let text = fs.readFileSync(singleFilePath).toString('utf-8');
 
-				fs.writeFile(singleFilePath, _JSCodeToObfuscator(text), function (err) {
-					if (err) {
-						return JSObfuscator.appendLine(err.message);
-					}
-				});
+					JSObfuscator.clear();
+
+					fs.writeFile(singleFilePath, _JSCodeToObfuscator(text), function (err) {
+						if (err) {
+							return JSObfuscator.appendLine(err.message);
+						}
+					});
+
+				}
 			});
 
 		} catch (error) {
