@@ -6,65 +6,85 @@ const JavaScriptObfuscator = require('javascript-obfuscator');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-let _getAllFilesFromFolder = function (dir) {
-
-	let filesystem = require("fs");
-	let results = [];
-
-	filesystem.readdirSync(dir).forEach(function (file) {
-
-		file = dir + '/' + file;
-		let stat = filesystem.statSync(file);
-
-		if (stat && stat.isDirectory()) {
-			results = results.concat(_getAllFilesFromFolder(file))
-		} else {
-			results.push(file);
-		}
-
-	});
-
-	return results;
-
-};
-
-let _JSCodeToObfuscator = function (text) {
-
-	let obfuscationResult = JavaScriptObfuscator.obfuscate(
-		text,
-		{
-			compact: false,
-			controlFlowFlattening: true
-		}
-	);
-
-	return obfuscationResult.getObfuscatedCode();
-}
-
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+	
+	let JSObfuscatorOutputChannel;
+	let settings = vscode.workspace.getConfiguration().get("jsobfuscator");
 
-	console.log('Congratulations , your extension "JSObfuscator" is now active!');
+	let _getAllFilesFromFolder = function(dir) {
 
-	let disposable = vscode.commands.registerCommand('extension.JSObfuscatorEncodeJSCode', function () {
+		let filesystem = require("fs");
+		let results = [];
 
-		let JSObfuscator = vscode.window.createOutputChannel("JSObfuscator");
-		JSObfuscator.clear();
+		filesystem.readdirSync(dir).forEach(function(file) {
 
-		JSObfuscator.appendLine('Obfuscating process started');
+			file = dir + '/' + file;
+			let stat = filesystem.statSync(file);
 
-		let fileOnWhichWeWorking;
+			if (stat && stat.isDirectory()) {
+				results = results.concat(_getAllFilesFromFolder(file))
+			} else {
+				results.push(file);
+			}
+
+		});
+		return results;
+	};
+
+	let _JSCodeToObfuscator = function(text) {
+		let obfuscationResult = JavaScriptObfuscator.obfuscate(
+			text,
+			settings['javascript-obfuscator']
+		);
+
+		return obfuscationResult.getObfuscatedCode();
+	}
+
+	let doObfuscateFile = function(filePath) {
+		if (typeof(filePath) === 'object') {
+			filePath = filePath.fileName;
+		}
+		
+		let text = fs.readFileSync(filePath).toString('utf-8');
+
+		let outName = filePath;
+
+		if (settings.changeExtension != "") {
+			outName = filePath.split('.');
+			const ext = outName.pop();
+			outName.push(settings.changeExtension);
+			outName = outName.join('.');
+		}
+
+		fs.writeFile(outName, _JSCodeToObfuscator(text), function(err) {
+			if (err) {
+				JSObfuscatorOutputChannel.appendLine('Error writing to file: ' + outName);
+				JSObfuscatorOutputChannel.appendLine(err.message);
+				return vscode.window.showErrorMessage('Invalid Exception.');
+			}
+		});
+	};
+
+	let disposable = vscode.commands.registerCommand('jsobfuscator.obfuscateWorkspace', function() {
+
+		let JSObfuscatorOutputChannel = vscode.window.createOutputChannel("jsobfuscator");
+		JSObfuscatorOutputChannel.clear();
+
+		JSObfuscatorOutputChannel.appendLine('Obfuscating process started');
+
+		let currentFile;
 
 		try {
 			if (typeof vscode.workspace.workspaceFolders === 'undefined' || vscode.workspace.workspaceFolders.length == 0) {
 				return vscode.window.showInformationMessage("Open a folder or workspace... (File -> Open Folder)");
 			}
 
-			let ignoreMinFiles = vscode.workspace.getConfiguration().get('JSObfuscator.ignoreMinFiles');
-			let subPathInWorkspace = "/" + vscode.workspace.getConfiguration().get('JSObfuscator.subPathInWorkspace');
-			let ignoreFile = vscode.workspace.getConfiguration().get('JSObfuscator.ignoreFile');
+			let ignoreMinFiles = vscode.workspace.getConfiguration().get('jsobfuscator.ignoreMinFiles');
+			let subPathInWorkspace = "/" + vscode.workspace.getConfiguration().get('jsobfuscator.subPathInWorkspace');
+			let ignoreFile = vscode.workspace.getConfiguration().get('jsobfuscator.ignoreFile');
 
 			let ignoreFileArray = ignoreFile.split(",");
 			const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + subPathInWorkspace;
@@ -72,52 +92,56 @@ function activate(context) {
 			let filePath = _getAllFilesFromFolder(workspacePath);
 
 			for (let i = 0; i < filePath.length; i++) {
-				fileOnWhichWeWorking = filePath[i];
+				currentFile = filePath[i];
 
 				let currentFileName = filePath[i].split("/");
-				currentFileName = currentFileName[currentFileName.length -1 ];
+				currentFileName = currentFileName[currentFileName.length -1];
 
-				if (ignoreMinFiles && filePath[i].search(".min.js") != -1 ) {
+				// check settings and if we are supposed to ignore .min.js files skip this file 
+				// if the current file name is supposed to be ignored skip this file
+				if ((ignoreMinFiles && filePath[i].search(".min.js") != -1) || ignoreFileArray.indexOf(currentFileName) != -1) {
 					continue;
 				}
-
-				if(ignoreFileArray.indexOf(currentFileName) != -1 ){
-					continue;
-				}
-				
-
 
 				let nameSplitted = filePath[i].split(".");
 
 				if (nameSplitted[nameSplitted.length - 1] == 'js') {
-					let text = fs.readFileSync(filePath[i]).toString('utf-8');
-
-					fs.writeFile(filePath[i], _JSCodeToObfuscator(text), function (err) {
-						if (err) {
-							JSObfuscator.appendLine('File on which get error : ' + fileOnWhichWeWorking);
-							JSObfuscator.appendLine(err.message);
-							return vscode.window.showErrorMessage('Invalid Exception.');
-							
-						}
-					});
+					doObfuscateFile(filePath[i]);
 				}
 			}
 
-			return vscode.window.showInformationMessage('All Script Obfuscated.');
+			return vscode.window.showInformationMessage('All Scripts Obfuscated.');
 		} catch (error) {
-			JSObfuscator.appendLine('File on which get error : ' + fileOnWhichWeWorking);
-			JSObfuscator.appendLine(error.stack);
-			JSObfuscator.appendLine(error);
+			JSObfuscatorOutputChannel.appendLine('Error while working with: ' + currentFile);
+			JSObfuscatorOutputChannel.appendLine(error.stack);
+			JSObfuscatorOutputChannel.appendLine(error);
 			return vscode.window.showErrorMessage('Invalid Exception.');
 		}
 	});
 
 	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('jsobfuscator.obfuscateFile', function() {
+		const active = vscode.window.activeTextEditor;
+		if (!active || !active.document) return;
+		if (active.document.isUntitled) return vscode.window.setStatusBarMessage(
+			"File must be saved before it can be obfuscated",
+			5000);
+		return doObfuscateFile(active.document);
+	});
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.workspace.onDidChangeConfiguration(() => {
+		settings = vscode.workspace.getConfiguration().get("jsobfuscator");
+	});
+	context.subscriptions.push(disposable);
 }
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() { }
+function deactivate() { 
+
+}
 
 module.exports = {
 	activate,

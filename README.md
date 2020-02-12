@@ -4,16 +4,15 @@
 
 
 ## Features
-
-This extension will convert all your JavaScript codes in the minified version and also Obfuscator them to make it secure.Thanks for using 😊
+This extension will obfuscate and minify your JavaScript code to make it more secure.
 
 ## Note : 
-Once code gets obfuscated you cannot revert it. So use this before deployment of your code.
+If you don't set the setting to change the file extension your origional files will be overwritten. In that case once the code gets obfuscated you cannot revert it to it's origional state. For best use, use this before deployment of your code.
 
 #
 
 ## Usages
-Just click `Ctrl`+`Shift`+`P` and search for `"JSObfuscator : Encode JS Code"` command and run it. Then all your workspace JavaScript will be obfuscated.
+Press `Ctrl`+`Shift`+`P` and search for `"JSObfuscator : Obfuscate Current Workspace"` to obfuscate your workspace recursively or `"JSObfuscator : Obfuscate Current File"` to obfuscate the current file.
 
 ![Preview](images/ss.gif)
 
@@ -21,9 +20,9 @@ Just click `Ctrl`+`Shift`+`P` and search for `"JSObfuscator : Encode JS Code"` c
 #
 
 ## ⚠ Important
-##### Only obfuscate the code that belongs to you. 
+##### Only obfuscate code that belongs to you. 
 
-It is not recommended to obfuscate vendor scripts and polyfills, since the obfuscated code is 15-80% slower (depends on options) and the files are significantly larger.
+It is not recommended to obfuscate vendor scripts and polyfills, since the obfuscated code is 15-80% slower (depending on options) and the files are significantly larger.
 
 #
 
