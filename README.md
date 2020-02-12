@@ -11,7 +11,7 @@ If you don't set the setting to change the file extension your origional files w
 
 #
 
-## Usages
+## Usage
 Press `Ctrl`+`Shift`+`P` and search for `"JSObfuscator : Obfuscate Current Workspace"` to obfuscate your workspace recursively or `"JSObfuscator : Obfuscate Current File"` to obfuscate the current file.
 
 ![Preview](images/ss.gif)
@@ -30,6 +30,11 @@ It is not recommended to obfuscate vendor scripts and polyfills, since the obfus
 This extension use [JavaScript obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator)
 
 #
+
+## TODO:
+
+Update gif in Usage
+Add section in README to go over settings
 
 ## Github & Issues
 
