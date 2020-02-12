@@ -12,7 +12,7 @@ const JavaScriptObfuscator = require('javascript-obfuscator');
 function activate(context) {
 	
 	let JSObfuscatorOutputChannel;
-	let settings = vscode.workspace.getConfiguration().get("jsobfuscator");
+	let settings = vscode.workspace.getConfiguration().get("JSObfuscator");
 
 	let _getAllFilesFromFolder = function(dir) {
 
@@ -68,12 +68,11 @@ function activate(context) {
 		});
 	};
 
-	let disposable = vscode.commands.registerCommand('jsobfuscator.obfuscateWorkspace', function() {
-
-		let JSObfuscatorOutputChannel = vscode.window.createOutputChannel("jsobfuscator");
+	let disposable = vscode.commands.registerCommand('JSObfuscator.obfuscateWorkspace', function() {
+		let JSObfuscatorOutputChannel = vscode.window.createOutputChannel("JSObfuscator");
 		JSObfuscatorOutputChannel.clear();
 
-		JSObfuscatorOutputChannel.appendLine('Obfuscating process started');
+		JSObfuscatorOutputChannel.appendLine('Obfuscating Workspace process started');
 
 		let currentFile;
 
@@ -82,9 +81,9 @@ function activate(context) {
 				return vscode.window.showInformationMessage("Open a folder or workspace... (File -> Open Folder)");
 			}
 
-			let ignoreMinFiles = vscode.workspace.getConfiguration().get('jsobfuscator.ignoreMinFiles');
-			let subPathInWorkspace = "/" + vscode.workspace.getConfiguration().get('jsobfuscator.subPathInWorkspace');
-			let ignoreFile = vscode.workspace.getConfiguration().get('jsobfuscator.ignoreFile');
+			let ignoreMinFiles = vscode.workspace.getConfiguration().get('JSObfuscator.ignoreMinFiles');
+			let subPathInWorkspace = "/" + vscode.workspace.getConfiguration().get('JSObfuscator.subPathInWorkspace');
+			let ignoreFile = vscode.workspace.getConfiguration().get('JSObfuscator.ignoreFile');
 
 			let ignoreFileArray = ignoreFile.split(",");
 			const workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath + subPathInWorkspace;
@@ -110,7 +109,7 @@ function activate(context) {
 				}
 			}
 
-			return vscode.window.showInformationMessage('All Scripts Obfuscated.');
+			return vscode.window.showInformationMessage('Workspace finished Obfuscating.');
 		} catch (error) {
 			JSObfuscatorOutputChannel.appendLine('Error while working with: ' + currentFile);
 			JSObfuscatorOutputChannel.appendLine(error.stack);
@@ -118,21 +117,25 @@ function activate(context) {
 			return vscode.window.showErrorMessage('Invalid Exception.');
 		}
 	});
-
 	context.subscriptions.push(disposable);
 
-	disposable = vscode.commands.registerCommand('jsobfuscator.obfuscateFile', function() {
+	disposable = vscode.commands.registerCommand('JSObfuscator.obfuscateFile', function() {
 		const active = vscode.window.activeTextEditor;
-		if (!active || !active.document) return;
-		if (active.document.isUntitled) return vscode.window.setStatusBarMessage(
-			"File must be saved before it can be obfuscated",
-			5000);
-		return doObfuscateFile(active.document);
+		if (!active || !active.document) {
+			return;
+		}
+		
+		if (active.document.isUntitled) {
+			return vscode.window.setStatusBarMessage("File must be saved before it can be obfuscated", 5000);
+		}
+		doObfuscateFile(active.document);
+		let fileName = active.document.fileName.split('\\').pop();
+		return vscode.window.showInformationMessage('Finished Obfuscating ' + fileName);
 	});
 	context.subscriptions.push(disposable);
 
 	disposable = vscode.workspace.onDidChangeConfiguration(() => {
-		settings = vscode.workspace.getConfiguration().get("jsobfuscator");
+		settings = vscode.workspace.getConfiguration().get("JSObfuscator");
 	});
 	context.subscriptions.push(disposable);
 }
