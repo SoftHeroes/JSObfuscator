@@ -52,6 +52,7 @@ function activate(context) {
 
 		let outName = filePath;
 
+		// if there is a value in changeExtension, remove the last extension and replace it with the provided one
 		if (settings.changeExtension != "") {
 			outName = filePath.split('.');
 			const ext = outName.pop();
@@ -59,13 +60,28 @@ function activate(context) {
 			outName = outName.join('.');
 		}
 
-		fs.writeFile(outName, _JSCodeToObfuscator(text), function(err) {
-			if (err) {
-				JSObfuscatorOutputChannel.appendLine('Error writing to file: ' + outName);
-				JSObfuscatorOutputChannel.appendLine(err.message);
-				return vscode.window.showErrorMessage('Invalid Exception.');
+		let writeFile = true;
+		if (!settings.overwriteFiles) {
+			if (fs.existsSync(outName)) {
+				// get relative path in workspace for the file
+				let workspacePath = vscode.workspace.rootPath;
+				let fileName = filePath.replace(workspacePath,'').substring(1);
+				vscode.window.showInformationMessage('Skipped Obfuscating ' + fileName);
+
+				// set boolean to skip this file
+				writeFile = false;
 			}
-		});
+		}
+
+		if (writeFile) {
+			fs.writeFile(outName, _JSCodeToObfuscator(text), function(err) {
+				if (err) {
+					JSObfuscatorOutputChannel.appendLine('Error writing to file: ' + outName);
+					JSObfuscatorOutputChannel.appendLine(err.message);
+					return vscode.window.showErrorMessage('Invalid Exception.');
+				}
+			});
+		}
 	};
 
 	let disposable = vscode.commands.registerCommand('JSObfuscator.obfuscateWorkspace', function() {

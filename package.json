@@ -13,46 +13,50 @@
 		"Other"
 	],
 	"activationEvents": [
-		"jsobfuscator.obfuscateWorkspace",
-		"jsobfuscator.obfuscateFile"
+		"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "jsobfuscator.obfuscateWorkspace",
-				"title": "JSObfuscator : Obfuscate Current Workspace"
+				"command": "JSObfuscator.obfuscateWorkspace",
+				"title": "JSObfuscator: Obfuscate Current Workspace"
 			},
 			{
-				"command": "jsobfuscator.obfuscateFile",
-				"title": "JSObfuscator : Obfuscate Current File"
+				"command": "JSObfuscator.obfuscateFile",
+				"title": "JSObfuscator: Obfuscate Current File"
 			}
 		],
 		"configuration": {
 			"type": "object",
 			"title": "JSObfuscator",
 			"properties": {
-				"jsobfuscator.ignoreMinFiles": {
+				"JSObfuscator.ignoreMinFiles": {
 					"type": "boolean",
 					"markdownDescription": "**Ignore .min.js files**",
 					"default": true
 				},
-				"jsobfuscator.subPathInWorkspace": {
+				"JSObfuscator.overwriteFiles": {
+					"type": "boolean",
+					"markdownDescription": "Overwrite existing files if they exist.",
+					"default": false
+				},
+				"JSObfuscator.subPathInWorkspace": {
 					"type": "string",
 					"description": "Limit obfuscation by specifying a sub directory to process",
 					"default": ""
 				},
-				"jsobfuscator.ignoreFile": {
+				"JSObfuscator.ignoreFile": {
 					"type": "string",
 					"description": "Enter comma separated file names to be ignored",
 					"default": ""
 				},
-				"jsobfuscator.changeExtension": {
+				"JSObfuscator.changeExtension": {
 					"type": "string",
 					"description": "Change file file extension, for example if you put min.js the file would be changed from test.js to test.min.js",
 					"default": "min.js"
 				},
-				"jsobfuscator.javascript-obfuscator": {
+				"JSObfuscator.javascript-obfuscator": {
 					"type": "object",
 					"description": "Enter options to be passed into javascript-obfuscator see https://www.npmjs.com/package/javascript-obfuscator#preset-options",
 					"default": {
