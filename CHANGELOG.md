@@ -2,12 +2,14 @@
 
 ## [1.1.0]
 
-- Added command to obfuscate the active file
+- Added command to obfuscate the active file "JSObfuscator: Obfuscate Current File"
 - Added extension setting for javascript-obfuscator so you can change the obfuscation settings
 - Added extension setting to change the obfuscated file extension
-- Changed the name of the current command from "JSObfuscator : Encode JS Code" to "JSObfuscator: Obfuscate Current Workspace"
+- Added extension setting for overwriting existing files
+- Changed the name of the command "JSObfuscator : Encode JS Code" to "JSObfuscator: Obfuscate Current Workspace"
 - Changed the order of the change log
-- Changed some wording
+- Updated the README
+- Changed setting descriptions
 
 ## [1.0.2]
 
