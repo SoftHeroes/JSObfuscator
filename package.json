@@ -36,31 +36,31 @@
 					"markdownDescription": "**Ignore .min.js files**",
 					"default": true
 				},
-				"JSObfuscator.overwriteFiles": {
+				"JSObfuscator.overwriteExistingFiles": {
 					"type": "boolean",
-					"markdownDescription": "Overwrite existing files if they exist.",
+					"markdownDescription": "When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file",
 					"default": false
 				},
-				"JSObfuscator.subPathInWorkspace": {
+				"JSObfuscator.relativePathToProcess": {
 					"type": "string",
-					"description": "Limit obfuscation by specifying a sub directory to process",
+					"description": "Limit obfuscation by specifying a relative path / sub directory within your Workspace to process",
 					"default": ""
 				},
-				"JSObfuscator.ignoreFile": {
+				"JSObfuscator.filesToIgnore": {
 					"type": "string",
-					"description": "Enter comma separated file names to be ignored",
+					"description": "Enter comma separated list of file names to be ignored",
 					"default": ""
 				},
-				"JSObfuscator.changeExtension": {
+				"JSObfuscator.changeFileExtension": {
 					"type": "string",
-					"description": "Change file file extension, for example if you put min.js the file would be changed from test.js to test.min.js",
+					"description": "Save the file with a new extension after ofuscating. For example if you put min.js the file would be changed from test.js to test.min.js and the file test.min.js would change to test.min.min.js as it only replaces the last extension on the file.",
 					"default": "min.js"
 				},
 				"JSObfuscator.javascript-obfuscator": {
 					"type": "object",
-					"description": "Enter options to be passed into javascript-obfuscator see https://www.npmjs.com/package/javascript-obfuscator#preset-options",
+					"markdownDescription": "Enter options to be passed into javascript-obfuscator see the [javascript-obfuscator documentation](https://www.npmjs.com/package/javascript-obfuscator#preset-options)",
 					"default": {
-						"compact": false,
+						"compact": true,
 						"controlFlowFlattening": true,
 						"deadCodeInjection": false,
 						"debugProtection": false,

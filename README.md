@@ -1,42 +1,128 @@
-# JSObfuscator
+# **JSObfuscator**
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/softheroes.jsobfuscator.svg)](https://marketplace.visualstudio.com/items?itemName=softheroes.jsobfuscator)&ensp;[![Installs](https://vsmarketplacebadge.apphb.com/installs/softheroes.jsobfuscator.svg)](https://marketplace.visualstudio.com/items?itemName=softheroes.jsobfuscator)&ensp;[![Rating](https://vsmarketplacebadge.apphb.com/rating/softheroes.jsobfuscator.svg)](https://marketplace.visualstudio.com/items?itemName=softheroes.jsobfuscator)
 
 
-## Features
+## **Features**
 This extension will obfuscate and minify your JavaScript code to make it more secure.
 
-## Note : 
-If you don't set the setting to change the file extension your origional files will be overwritten. In that case once the code gets obfuscated you cannot revert it to it's origional state. For best use, use this before deployment of your code.
+### **Note** 
+
+Once the code gets obfuscated you cannot revert it to it's origional state. For best use, use this before deployment of your code.
 
 #
 
-## Usage
-Press `Ctrl`+`Shift`+`P` and search for `"JSObfuscator : Obfuscate Current Workspace"` to obfuscate your workspace recursively or `"JSObfuscator : Obfuscate Current File"` to obfuscate the current file.
+## **Commands**
+### **JSObfuscator : Obfuscate Current Workspace**
+This command will go through and obfuscate all the js files in your current Workspace. See settings for options to limit which files will be obfuscated.
+### **JSObfuscator : Obfuscate Current File**
+This command will obfuscate the file you currently have open. This requires you to have saved this file before obfuscating it. This command will also ignore the settings `Ignore Min Files` and `Files To Ignore`
+
+### **Note**
+By default code pages will be saved as a new file with their extension changed to .min.js and by default existing files will not be overwriten.
+
+### **Usage**
+Press `Ctrl`+`Shift`+`P` and search for `JSObfuscator: Obfuscate Current Workspace` to obfuscate your current Workspace recursively or search for `JSObfuscator: Obfuscate Current File` to obfuscate the current file. You have to have saved the current file before you can obfuscate it.
 
 ![Preview](images/ss.gif)
 
+#
+
+## **Settings**
+
+### **Change File Extension**
+**Default**: `min.js` \
+**Description**: Save the file with a new extension after offuscating. For example if you put min.js the file would be changed from test.js to test.min.js and the file test.min.js would change to test.min.min.js as it only replaces the last extension on the file.
+### **Files To Ignore**
+**Default**: \
+**Description**: Enter comma separated list of file names to be ignored
+### **Ignore Min Files**
+**Default**: `true` \
+**Description**: When processing the Workspace to obfuscate all js files do you want to ignore files with the extension .min.js
+NOTE: This option is ignored when processing a single file.
+### **JavaScript-obfuscator**
+**Default**: 
+```
+{
+    "compact": true,
+    "controlFlowFlattening": true,
+    "deadCodeInjection": false,
+    "debugProtection": false,
+    "debugProtectionInterval": false,
+    "disableConsoleOutput": true,
+    "identifierNamesGenerator": "hexadecimal",
+    "log": false,
+    "renameGlobals": false,
+    "rotateStringArray": true,
+    "selfDefending": true,
+    "shuffleStringArray": true,
+    "splitStrings": false,
+    "stringArray": true,
+    "stringArrayEncoding": false,
+    "stringArrayThreshold": 0.75,
+    "unicodeEscapeSequence": false
+}
+```
+**Description**: Enter options to be passed into javascript-obfuscator see the [javascript-obfuscator documentation](https://www.npmjs.com/package/javascript-obfuscator#preset-options) \
+**Note**: This needs to be done by editing your settings.json file. Here is an example of a settings.json file for just the JSObfuscator plugin.
+```
+{
+    "JSObfuscator" : {
+        "changeExtension": "min.js",
+        "filesToIgnore": "",
+        "ignoreMinFiles": true,
+        "javascript-obfuscator": {
+            "compact": true,
+            "controlFlowFlattening": true,
+            "deadCodeInjection": false,
+            "debugProtection": false,
+            "debugProtectionInterval": false,
+            "disableConsoleOutput": true,
+            "identifierNamesGenerator": "hexadecimal",
+            "log": false,
+            "renameGlobals": false,
+            "rotateStringArray": true,
+            "selfDefending": true,
+            "shuffleStringArray": true,
+            "splitStrings": false,
+            "stringArray": true,
+            "stringArrayEncoding": false,
+            "stringArrayThreshold": 0.75,
+            "unicodeEscapeSequence": false
+        },
+        "overwriteExistingFiles" : false,
+        "relativePathToProcess": ""
+    } 
+}
+```
+### **Overwrite Existing Files**
+**Default**: `false` \
+**Description**: When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file.
+### **Relative Path To Process**
+**Default**: \
+**Description**: Limit obfuscation by specifying a relative path / sub directory within your Workspace to process.
 
 #
 
-## ⚠ Important
-##### Only obfuscate code that belongs to you. 
+## **⚠ Important**
+### **Only obfuscate code that belongs to you**
 
 It is not recommended to obfuscate vendor scripts and polyfills, since the obfuscated code is 15-80% slower (depending on options) and the files are significantly larger.
 
 #
 
-## Dependencies
+## **Dependencies**
 This extension use [JavaScript obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator)
 
 #
 
-## TODO:
+## **TODO**
 
-Update gif in Usage
-Add section in README to go over settings
+* Update gif in Usage
 
-## Github & Issues
+#
+
+## **Github & Issues**
 
 Feel free to modify/change or create a new better version using this [Repo](https://github.com/SoftHeroes/JSObfuscator). If you find any issues you can report [Here](https://github.com/SoftHeroes/JSObfuscator/issues).
 
