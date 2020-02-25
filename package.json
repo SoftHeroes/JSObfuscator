@@ -1,11 +1,11 @@
 {
-	"name": "JSObfuscator",
+	"name": "jsobfuscator",
 	"displayName": "JSObfuscator",
 	"publisher": "SoftHeroes",
 	"repository": "https://github.com/SoftHeroes/JSObfuscator",
 	"icon": "images/logo.png",
-	"description": "Code Obfuscator, javaScript Obfuscator,Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure.Thanks for using :)",
-	"version": "1.0.2",
+	"description": "Code Obfuscator, javaScript Obfuscator, Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure. Thanks for using :)",
+	"version": "1.1.0",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
@@ -13,34 +13,71 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.JSObfuscatorEncodeJSCode"
+		"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.JSObfuscatorEncodeJSCode",
-				"title": "JSObfuscator : Encode JS Code"
+				"command": "JSObfuscator.obfuscateWorkspace",
+				"title": "JSObfuscator: Obfuscate Current Workspace"
+			},
+			{
+				"command": "JSObfuscator.obfuscateFile",
+				"title": "JSObfuscator: Obfuscate Current File"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "JSObfuscator Settings",
+			"title": "JSObfuscator",
 			"properties": {
 				"JSObfuscator.ignoreMinFiles": {
 					"type": "boolean",
-					"default": true,
-					"markdownDescription": "**No Obfuscator for .min.js**\nYes or no?"
+					"markdownDescription": "**Ignore .min.js files**",
+					"default": true
 				},
-				"JSObfuscator.subPathInWorkspace": {
-					"type": "string",
-					"default": "",
-					"description": "Specified some relative path where you only want to Obfuscate JavaScript"
+				"JSObfuscator.overwriteExistingFiles": {
+					"type": "boolean",
+					"markdownDescription": "When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file",
+					"default": false
 				},
-				"JSObfuscator.ignoreFile": {
+				"JSObfuscator.relativePathToProcess": {
 					"type": "string",
-					"default": "",
-					"description": "Enter file name with comma separated"
+					"description": "Limit obfuscation by specifying a relative path / sub directory within your Workspace to process",
+					"default": ""
+				},
+				"JSObfuscator.filesToIgnore": {
+					"type": "string",
+					"description": "Enter comma separated list of file names to be ignored",
+					"default": ""
+				},
+				"JSObfuscator.changeFileExtension": {
+					"type": "string",
+					"description": "Save the file with a new extension after ofuscating. For example if you put min.js the file would be changed from test.js to test.min.js and the file test.min.js would change to test.min.min.js as it only replaces the last extension on the file.",
+					"default": "min.js"
+				},
+				"JSObfuscator.javascript-obfuscator": {
+					"type": "object",
+					"markdownDescription": "Enter options to be passed into javascript-obfuscator see the [javascript-obfuscator documentation](https://www.npmjs.com/package/javascript-obfuscator#preset-options)",
+					"default": {
+						"compact": true,
+						"controlFlowFlattening": true,
+						"deadCodeInjection": false,
+						"debugProtection": false,
+						"debugProtectionInterval": false,
+						"disableConsoleOutput": true,
+						"identifierNamesGenerator": "hexadecimal",
+						"log": false,
+						"renameGlobals": false,
+						"rotateStringArray": true,
+						"selfDefending": true,
+						"shuffleStringArray": true,
+						"splitStrings": false,
+						"stringArray": true,
+						"stringArrayEncoding": false,
+						"stringArrayThreshold": 0.75,
+						"unicodeEscapeSequence": false
+					}
 				}
 			}
 		}
