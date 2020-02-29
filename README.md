@@ -8,7 +8,7 @@ This extension will obfuscate and minify your JavaScript code to make it more se
 
 ### **Note** 
 
-Once the code gets obfuscated you cannot revert it to it's origional state. For best use, use this before deployment of your code.
+Once the code gets obfuscated you cannot revert it to it's original state. For best use, use this before deployment of your code.
 
 #
 
@@ -31,8 +31,8 @@ Press `Ctrl`+`Shift`+`P` and search for `JSObfuscator: Obfuscate Current Workspa
 ## **Settings**
 
 ### **Change File Extension**
-**Default**: `min.js` \
-**Description**: Save the file with a new extension after offuscating. For example if you put min.js the file would be changed from test.js to test.min.js and the file test.min.js would change to test.min.min.js as it only replaces the last extension on the file.
+**Default**: `obfuscated.js` \
+**Description**: Save the file with a new extension after obfuscating. For example if you put obfuscated.js the file would be changed from test.js to test.obfuscated.js. But, if you try to obfuscating test.obfuscated.js this file will be skipped.
 ### **Files To Ignore**
 **Default**: \
 **Description**: Enter comma separated list of file names to be ignored
@@ -40,6 +40,12 @@ Press `Ctrl`+`Shift`+`P` and search for `JSObfuscator: Obfuscate Current Workspa
 **Default**: `true` \
 **Description**: When processing the Workspace to obfuscate all js files do you want to ignore files with the extension .min.js
 NOTE: This option is ignored when processing a single file.
+### **Overwrite Existing Files**
+**Default**: `false` \
+**Description**: When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file.
+### **Relative Path To Process**
+**Default**: \
+**Description**: Limit obfuscation by specifying a relative path / sub directory within your Workspace to process.
 ### **JavaScript-obfuscator**
 **Default**: 
 ```
@@ -95,12 +101,6 @@ NOTE: This option is ignored when processing a single file.
     } 
 }
 ```
-### **Overwrite Existing Files**
-**Default**: `false` \
-**Description**: When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file.
-### **Relative Path To Process**
-**Default**: \
-**Description**: Limit obfuscation by specifying a relative path / sub directory within your Workspace to process.
 
 #
 

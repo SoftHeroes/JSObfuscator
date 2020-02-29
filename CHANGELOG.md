@@ -1,4 +1,7 @@
 # Change Log
+## [1.2.0]
+
+- fixing some bugs
 
 ## [1.1.0]
 

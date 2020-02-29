@@ -5,7 +5,7 @@
 	"repository": "https://github.com/SoftHeroes/JSObfuscator",
 	"icon": "images/logo.png",
 	"description": "Code Obfuscator, javaScript Obfuscator, Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure. Thanks for using :)",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
@@ -46,15 +46,20 @@
 					"description": "Limit obfuscation by specifying a relative path / sub directory within your Workspace to process",
 					"default": ""
 				},
+				"JSObfuscator.subPathInWorkspace": {
+					"type": "string",
+					"markdownDescription": "Specified some relative path where you only want to Obfuscate JavaScript",
+					"default": ""
+				},
 				"JSObfuscator.filesToIgnore": {
 					"type": "string",
-					"description": "Enter comma separated list of file names to be ignored",
+					"markdownDescription": "Enter comma separated list of file names to be ignored",
 					"default": ""
 				},
 				"JSObfuscator.changeFileExtension": {
 					"type": "string",
-					"description": "Save the file with a new extension after ofuscating. For example if you put min.js the file would be changed from test.js to test.min.js and the file test.min.js would change to test.min.min.js as it only replaces the last extension on the file.",
-					"default": "min.js"
+					"description": "Save the file with a new extension after obfuscating. For example if you put min.js the file would be changed from test.js to test.min.js and the file test.min.js would change to test.min.min.js as it only replaces the last extension on the file.\n\nNote: to override same file just set this value blank and enable overwrite Existing Files",
+					"default": "obfuscated.js"
 				},
 				"JSObfuscator.javascript-obfuscator": {
 					"type": "object",
