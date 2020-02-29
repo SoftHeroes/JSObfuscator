@@ -5,7 +5,7 @@
 	"repository": "https://github.com/SoftHeroes/JSObfuscator",
 	"icon": "images/logo.png",
 	"description": "Code Obfuscator, javaScript Obfuscator, Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure. Thanks for using :)",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
@@ -40,11 +40,6 @@
 					"type": "boolean",
 					"markdownDescription": "When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file",
 					"default": false
-				},
-				"JSObfuscator.relativePathToProcess": {
-					"type": "string",
-					"description": "Limit obfuscation by specifying a relative path / sub directory within your Workspace to process",
-					"default": ""
 				},
 				"JSObfuscator.subPathInWorkspace": {
 					"type": "string",

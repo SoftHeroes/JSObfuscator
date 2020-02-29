@@ -43,9 +43,9 @@ NOTE: This option is ignored when processing a single file.
 ### **Overwrite Existing Files**
 **Default**: `false` \
 **Description**: When saving the obfuscated file if a file of the same name exists overwrite it with the obfuscated file.
-### **Relative Path To Process**
+### **Sub Path In Workspace**
 **Default**: \
-**Description**: Limit obfuscation by specifying a relative path / sub directory within your Workspace to process.
+**Description**: Specified some relative path where you only want to Obfuscate JavaScript.
 ### **JavaScript-obfuscator**
 **Default**: 
 ```
@@ -97,7 +97,7 @@ NOTE: This option is ignored when processing a single file.
             "unicodeEscapeSequence": false
         },
         "overwriteExistingFiles" : false,
-        "relativePathToProcess": ""
+        "subPathInWorkspace": ""
     } 
 }
 ```
