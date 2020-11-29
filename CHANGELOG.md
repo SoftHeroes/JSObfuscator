@@ -1,5 +1,5 @@
 # Change Log
-## [1.3.0]
+## [1.3.2]
 
 - icon update
 - bugs fix [issue_2](https://github.com/SoftHeroes/JSObfuscator/issues/2) and [issue_3](https://github.com/SoftHeroes/JSObfuscator/issues/3)
