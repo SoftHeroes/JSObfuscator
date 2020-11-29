@@ -6,6 +6,7 @@
 	"icon": "images/logo.png",
 	"description": "Code Obfuscator, javaScript Obfuscator, Obfuscator. This extension will convert all your JavaScript Code in minifier version and also Obfuscator them to make it secure. Thanks for using :)",
 	"version": "1.2.1",
+	"license": "SEE LICENSE IN LICENSE",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
@@ -92,12 +93,12 @@
 		"@types/vscode": "^1.41.0",
 		"eslint": "^6.6.0",
 		"glob": "^7.1.5",
-		"javascript-obfuscator": "^0.19.2",
+		"javascript-obfuscator": "^2.9.4",
 		"mocha": "^6.2.2",
 		"typescript": "^3.6.4",
 		"vscode-test": "^1.2.2"
 	},
 	"dependencies": {
-		"javascript-obfuscator": "^0.19.2"
+		"javascript-obfuscator": "^2.9.4"
 	}
 }
