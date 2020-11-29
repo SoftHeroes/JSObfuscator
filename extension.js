@@ -89,9 +89,6 @@ function activate(context) {
 		let writeFile = true;
 		if (!settings.overwriteExistingFiles) {
 			if (fs.existsSync(outName)) {
-				// get relative path in workspace for the file
-				let workspacePath = vscode.workspace.rootPath;
-				let fileName = filePath.replace(workspacePath, '').substring(1);
 				vscode.window.showInformationMessage('Skipped Obfuscating because file already exist ' + originalFileName);
 
 				// set boolean to skip this file

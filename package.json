@@ -75,7 +75,11 @@
 						"shuffleStringArray": true,
 						"splitStrings": false,
 						"stringArray": true,
-						"stringArrayEncoding": false,
+						"stringArrayEncoding": [
+							"none",
+							"base64",
+							"rc4"
+						],
 						"stringArrayThreshold": 0.75,
 						"unicodeEscapeSequence": false
 					}
