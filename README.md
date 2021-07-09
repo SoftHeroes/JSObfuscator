@@ -1,5 +1,5 @@
 # **JSObfuscator**
-
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/SoftHeroes/JSObfuscator)
 [![Version](https://vsmarketplacebadge.apphb.com/version/softheroes.jsobfuscator.svg)](https://marketplace.visualstudio.com/items?itemName=softheroes.jsobfuscator)&ensp;[![Installs](https://vsmarketplacebadge.apphb.com/installs/softheroes.jsobfuscator.svg)](https://marketplace.visualstudio.com/items?itemName=softheroes.jsobfuscator)&ensp;[![Rating](https://vsmarketplacebadge.apphb.com/rating/softheroes.jsobfuscator.svg)](https://marketplace.visualstudio.com/items?itemName=softheroes.jsobfuscator)
 
 
