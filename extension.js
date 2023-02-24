@@ -80,6 +80,10 @@ function activate(context) {
 				fileName.push(settings.changeFileExtension);
 				fileName = fileName.join('.');
 				outName = filePathOnly + '\\' + fileName
+				// path on linux will be invalid so we check if it begins with '\/' - if so we remove first char of invalid string
+				if (outName.charAt(0) === "\\" && outName.charAt(1) === "\/") {
+				outName = outName.substring(1);
+				}
 			}
 			else {
 				return vscode.window.showInformationMessage('Skipped Obfuscating ' + originalFileName);
